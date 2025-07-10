@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WZX | Roblox Script Viewer</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #121212;
+      color: #fff;
+    }
+
+    .header {
+      background-color: #000;
+      padding: 20px;
+      text-align: center;
+      font-size: 28px;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: row;
+      padding: 20px;
+      gap: 20px;
+    }
+
+    textarea {
+      width: 50%;
+      height: 500px;
+      background-color: #1e1e1e;
+      color: #fff;
+      border: none;
+      resize: none;
+      font-size: 16px;
+      padding: 15px;
+      border-radius: 10px;
+      outline: none;
+    }
+
+    .preview {
+      width: 50%;
+      background-color: #1a1a1a;
+      padding: 20px;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .gui-image {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border-radius: 10px;
+      object-fit: cover;
+      margin-bottom: 15px;
+      background-color: #333;
+      display: none;
+    }
+
+    .gui-sim {
+      width: 100%;
+      height: 300px;
+      border-radius: 8px;
+      background-color: #2b2b2b;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: flex-start;
+      padding: 15px;
+      gap: 10px;
+      box-sizing: border-box;
+    }
+
+    .gui-button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      border: none;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .gui-title {
+      font-size: 18px;
+      margin-bottom: 10px;
+      align-self: flex-start;
+    }
+
+    .run-btn {
+      margin-top: 20px;
+      background-color: #28a745;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 5px;
+      color: #fff;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">WZX - Roblox Script Viewer</div>
+
+  <div class="container">
+    <textarea id="scriptInput" placeholder="Paste your Roblox script here..."></textarea>
+
+    <div class="preview">
+      <div class="gui-title">GUI Preview</div>
+      <img id="guiImage" class="gui-image" src="" alt="Script GUI Image" />
+      <div class="gui-sim" id="guiSim">
+        <span style="color: gray;">Waiting for script input...</span>
+      </div>
+      <button class="run-btn" onclick="runScript()">Run Script</button>
+    </div>
+  </div>
+
+  <script>
+    const scriptInput = document.getElementById("scriptInput");
+    const guiSim = document.getElementById("guiSim");
+    const guiImage = document.getElementById("guiImage");
+
+    function runScript() {
+      alert("Script would run here! (This is a simulation button only.)");
+    }
+
+    scriptInput.addEventListener("input", () => {
+      const script = scriptInput.value;
+      guiSim.innerHTML = ""; // Clear preview
+      guiImage.style.display = "none";
+
+      // Show GUI image if specific pastebin link found
+      if (script.includes("pastebin.com/raw/gi3FYZuB")) {
+        guiImage.src = "https://i.imgur.com/wKXMEWn.png";  // Example GUI image
+        guiImage.style.display = "block";
+      }
+
+      // Extract button names from script
+      const matches = script.match(/Text\\s*=\\s*"([^"]+)"/g);
+      if (matches) {
+        matches.forEach((line) => {
+          const btnText = line.match(/"([^"]+)"/)[1];
+          const button = document.createElement("button");
+          button.className = "gui-button";
+          button.innerText = btnText;
+          guiSim.appendChild(button);
+        });
+      } else {
+        guiSim.innerHTML = "<span style='color: gray;'>No buttons detected in script.</span>";
+      }
+    });
+  </script>
+</body>
+</html>
